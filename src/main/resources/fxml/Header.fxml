@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.GridPane?>
+<GridPane fx:id="node" fx:controller="com.bad.interclub.display.bach.ui.HeaderController"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
+          style="-fx-background-color: red;"
+          styleClass="root">
+
+
+</GridPane>

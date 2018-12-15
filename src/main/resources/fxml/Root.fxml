@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.stage.Screen?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            prefHeight="${screen.visualBounds.height}" prefWidth="${screen.visualBounds.width}"
+            style="-fx-background-color: black;"
+            styleClass="root">
+
+    <fx:define>
+        <Screen fx:factory="getPrimary" fx:id="screen" />
+    </fx:define>
+
+    <children>
+        <fx:include source="Grid.fxml" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0"/>
+
+        <fx:include source="Slider.fxml" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0"/>
+    </children>
+
+
+</AnchorPane>
