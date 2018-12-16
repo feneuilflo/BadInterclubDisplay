@@ -1,4 +1,4 @@
-package com.bad.interclub.display.bach.ui;
+package com.bad.interclub.display.bach.ui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -7,12 +7,12 @@ import javafx.scene.layout.GridPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HeaderController implements Initializable {
+public class SponsorNodeController implements Initializable {
 
     @FXML
     private GridPane node;
 
-    public HeaderController() {
+    public SponsorNodeController() {
 
     }
 

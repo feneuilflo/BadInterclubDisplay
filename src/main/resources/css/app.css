@@ -1,0 +1,25 @@
+* {
+    -host-color-1:firebrick;
+    -host-color-2:darkred;
+
+    -guest-color-1:mediumblue;
+    -guest-color-2:darkblue;
+}
+
+.header-text {
+    -fx-text-fill:white;
+    -fx-padding: 15 30 15 30;
+    -fx-font-family: "Helvetica";
+    -fx-font-size: 3em; /* relative size */
+    -fx-font-weight: bold;
+
+/*
+    -fx-border-color:black;
+    -fx-border-width: 1;
+    -fx-border-style: solid;
+    */
+}
+
+.header-panel {
+    -fx-background-color: linear-gradient(to right, -host-color-1 0%, -host-color-2 47%, #600060 50%, -guest-color-2 53%, -guest-color-1 100%);
+}

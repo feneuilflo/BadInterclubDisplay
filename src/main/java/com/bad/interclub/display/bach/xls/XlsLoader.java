@@ -48,7 +48,9 @@ public final class XlsLoader {
         // build matches
         extractMatches(wb, builder, host, guest);
 
-        return builder.withFile(file.getAbsolutePath()).build();
+        return builder.withFile(file.getAbsolutePath())
+                .withHost(host).withGuest(guest)
+                .build();
     }
 
     private static Interclub.InterclubBuilder initWithGeneralInformations(HSSFWorkbook wb) {
