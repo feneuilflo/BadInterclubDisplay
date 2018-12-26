@@ -63,7 +63,7 @@ public class App extends Application{
         );
 
         //File file = fileChooser.showOpenDialog(null);
-        File file = new File("C:\\Users\\Admin\\Documents\\Programmation\\BadInterclubDisplay\\example\\J04260N11.xls");
+        File file = new File("F:\\BadInterclubDisplay\\example\\J04260N11.xls");
 
         if(file == null) {
             LOGGER.error("No file chosen --> exit");

@@ -15,6 +15,11 @@ public class WrappedImageView extends ImageView {
 
     private final DoubleProperty heightProperty = new SimpleDoubleProperty();
 
+    public WrappedImageView() {
+        super();
+        setPreserveRatio(true);
+    }
+
     public WrappedImageView(Image image) {
         super(image);
         setPreserveRatio(true);
@@ -27,7 +32,8 @@ public class WrappedImageView extends ImageView {
 
     @Override
     public double prefWidth(double height) {
-        return getImage().getWidth();
+        Image img = getImage();
+        return img == null ? 0.0 : img.getWidth();
     }
 
     @Override
@@ -42,7 +48,8 @@ public class WrappedImageView extends ImageView {
 
     @Override
     public double prefHeight(double width) {
-        return getImage().getHeight();
+        Image img = getImage();
+        return img == null ? 0.0 : img.getHeight();
     }
 
     @Override
@@ -58,7 +65,8 @@ public class WrappedImageView extends ImageView {
     @Override
     public void resize(double width, double height) {
         setFitWidth(width);
-        double new_height = getImage().getHeight() * width / getImage().getWidth();
+        Image img = getImage();
+        double new_height = (img == null ? 0.0 : img.getHeight() * width / img.getWidth());
         heightProperty.set(new_height);
     }
 

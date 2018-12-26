@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.bad.interclub.display.bach.ui.controllers.MatchScoreController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <gridLinesVisible>true</gridLinesVisible>
+
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="55.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0"/>
+    </columnConstraints>
+
+    <rowConstraints>
+        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="50.0"/>
+        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="50.0"/>
+    </rowConstraints>
+
+    <Label fx:id="lblHostPlayer" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <Label fx:id="lblGuestPlayer" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+
+    <Label fx:id="lblHostSet1" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+    <Label fx:id="lblGuestSet1" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+    <Label fx:id="lblHostSet2" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+    <Label fx:id="lblGuestSet2" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+
+    <Label fx:id="lblHostSet3" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+    <Label fx:id="lblGuestSet3" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+</GridPane>

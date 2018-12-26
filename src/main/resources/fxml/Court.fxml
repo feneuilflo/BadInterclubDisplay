@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.bad.interclub.display.bach.ui.utils.WrappedImageView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.bad.interclub.display.bach.ui.controllers.CourtController"
+          styleClass="root">
+
+    <gridLinesVisible>true</gridLinesVisible>
+
+    <rowConstraints>
+        <RowConstraints vgrow="SOMETIMES" valignment="CENTER" minHeight="10.0" percentHeight="15.0"/>
+        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="45.0"/>
+        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="40.0"/>
+    </rowConstraints>
+
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="0" spacing="10" alignment="CENTER">
+        <Label fx:id="lblCourtName" text="Terrain " styleClass="court-header-text"/>
+        <Label fx:id="lblMatchName" styleClass="court-header-text"/>
+    </HBox>
+
+    <WrappedImageView GridPane.columnIndex="0" GridPane.rowIndex="1"
+                      fx:id="imgView"/>
+
+    <fx:include source="MatchScore.fxml" fx:id="score"
+                GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+
+</GridPane>

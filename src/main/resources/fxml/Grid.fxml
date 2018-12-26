@@ -8,26 +8,28 @@
     <gridLinesVisible>true</gridLinesVisible>
 
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" />
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" />
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0"/>
     </columnConstraints>
 
     <rowConstraints>
-        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="15.0" />
-        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="80.0" />
-        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="5.0" />
+        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="15.0"/>
+        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="80.0"/>
+        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="5.0"/>
     </rowConstraints>
 
     <fx:include source="Sponsors.fxml" fx:id="leftSponsors"
-                 GridPane.columnIndex="0" GridPane.rowIndex="0"
-                 GridPane.rowSpan="2"/>
+                GridPane.columnIndex="0" GridPane.rowIndex="0"
+                GridPane.rowSpan="2"/>
 
     <fx:include source="Header.fxml" fx:id="HeaderController"
                 GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
+    <fx:include source="Center.fxml"
+              GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
     <fx:include source="Sponsors.fxml" fx:id="rightSponsors"
-                 GridPane.columnIndex="2" GridPane.rowIndex="0"
-                 GridPane.rowSpan="2"/>
+                GridPane.columnIndex="2" GridPane.rowIndex="0"
+                GridPane.rowSpan="2"/>
 </GridPane>

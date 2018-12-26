@@ -23,3 +23,12 @@
 .header-panel {
     -fx-background-color: linear-gradient(to right, -host-color-1 0%, -host-color-2 47%, #600060 50%, -guest-color-2 53%, -guest-color-1 100%);
 }
+
+.court-header-text {
+    -fx-text-fill:sandybrown;
+    -fx-padding: 15 30 15 30;
+    -fx-font-family: "Helvetica";
+    -fx-font-size: 2.8em; /* relative size */
+    -fx-font-weight: bold;
+    -fx-font-style: italic;
+}
