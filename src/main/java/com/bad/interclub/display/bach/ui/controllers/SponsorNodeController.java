@@ -10,6 +10,10 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableDoubleValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
@@ -22,12 +26,10 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class SponsorNodeController implements Initializable {
@@ -38,7 +40,6 @@ public class SponsorNodeController implements Initializable {
     private Pane node;
 
     private AtomicReference<Timeline> atTimeline;
-    private DoubleBinding heightSum;
 
     public SponsorNodeController() {
 
@@ -99,27 +100,23 @@ public class SponsorNodeController implements Initializable {
             }
 
             // setup animation
-            heightSum = Bindings.createDoubleBinding(() -> node.getChildren().stream()
-                            .filter(node -> node instanceof WrappedImageView)
-                            .mapToDouble(node -> ((WrappedImageView) node).getHeightProperty().get())
-                            .sum() / 2,
-                    node.getChildren().stream()
+            ObservableList<DoubleProperty> heights = FXCollections.observableList(node.getChildren().stream()
                             .filter(node -> node instanceof WrappedImageView)
                             .map(node -> ((WrappedImageView) node).getHeightProperty())
-                            .toArray(Observable[]::new));
-
-            atTimeline = new AtomicReference<>(setupAnimation(animationOffset, heightSum.get()));
-            heightSum.addListener((observable, oldValue, newValue) -> {
+                            .collect(Collectors.toList()),
+                    param -> new DoubleProperty[] {param});
+            atTimeline = new AtomicReference<>(setupAnimation(animationOffset, 0.0));
+            heights.addListener((ListChangeListener<? super DoubleProperty>) c -> {
+                double sum = heights.stream()
+                        .mapToDouble(ObservableDoubleValue::get)
+                        .sum();
                 atTimeline.getAndUpdate(old -> {
                     old.stop();
-                    Timeline timeline = setupAnimation(animationOffset, newValue.doubleValue());
+                    Timeline timeline = setupAnimation(animationOffset, sum / 2);
                     timeline.play();
                     return timeline;
                 });
             });
-
-            // sans cette ligne, l'animation ne démarre pas !
-            Platform.runLater(() -> System.out.println("heightSum = " + heightSum.get()));
 
         } catch (URISyntaxException e) {
             LOGGER.error("Failed to load sponsors - ex=", e);
