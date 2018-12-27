@@ -77,8 +77,16 @@ public class MatchScoreController implements Initializable {
         this.match.getScore().getSet3().hostPointsProperty().addListener(listenerHostSet3);
         this.match.getScore().getSet3().guestPointsProperty().addListener(listenerGuestSet3);
 
+        // fill current score
+        lblHostSet1.setText(String.valueOf(this.match.getScore().getSet1().getHostPoints()));
+        lblHostSet2.setText(String.valueOf(this.match.getScore().getSet2().getHostPoints()));
+        lblHostSet3.setText(String.valueOf(this.match.getScore().getSet3().getHostPoints()));
+        lblGuestSet1.setText(String.valueOf(this.match.getScore().getSet1().getGuestPoints()));
+        lblGuestSet2.setText(String.valueOf(this.match.getScore().getSet2().getGuestPoints()));
+        lblGuestSet3.setText(String.valueOf(this.match.getScore().getSet3().getGuestPoints()));
+
         // fill players name
-        lblHostPlayer.setText(match.getHost().stream().map(pl -> pl.getFirstname().toUpperCase() + " " + pl.getSurname()).collect(Collectors.joining("\n")));
-        lblGuestPlayer.setText(match.getGuest().stream().map(pl -> pl.getFirstname().toUpperCase() + " " + pl.getSurname()).collect(Collectors.joining("\n")));
+        lblHostPlayer.setText(match.getHost().stream().map(pl -> pl.getSurname().toUpperCase() + " " + pl.getFirstname()).collect(Collectors.joining("\n")));
+        lblGuestPlayer.setText(match.getGuest().stream().map(pl -> pl.getSurname().toUpperCase() + " " + pl.getFirstname()).collect(Collectors.joining("\n")));
     }
 }

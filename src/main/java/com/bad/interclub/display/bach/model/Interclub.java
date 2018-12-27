@@ -1,6 +1,8 @@
 package com.bad.interclub.display.bach.model;
 
 import com.google.common.collect.ImmutableMap;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -26,6 +28,7 @@ public class Interclub {
     private final String file;
 
     private final Map<Match.EMatchType, Match> matches;
+    private final ObservableList<Match.EMatchType> matchOrder = FXCollections.observableArrayList();
 
     private Interclub(LocalDate date, String division, int pool, String interclubNb, int number, String location, Club host, Club guest, String file, Map<Match.EMatchType, Match> matches) {
         this.date = date;
@@ -82,6 +85,10 @@ public class Interclub {
 
     public Map<Match.EMatchType, Match> getMatches() {
         return matches;
+    }
+
+    public ObservableList<Match.EMatchType> getMatchOrder() {
+        return matchOrder;
     }
 
     @Override

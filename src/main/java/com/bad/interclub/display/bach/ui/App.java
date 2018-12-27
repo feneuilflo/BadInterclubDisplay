@@ -1,6 +1,7 @@
 package com.bad.interclub.display.bach.ui;
 
 import com.bad.interclub.display.bach.model.Interclub;
+import com.bad.interclub.display.bach.model.MatchOrderUtils;
 import com.bad.interclub.display.bach.xls.XlsLoader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -73,6 +74,14 @@ public class App extends Application{
             if(extension.equalsIgnoreCase(".xls")) {
                 try {
                     Interclub interclub = XlsLoader.loadFromFile(file);
+
+                    // match order
+                    if(interclub.getMatchOrder().isEmpty()) {
+                        interclub.getMatchOrder().setAll(MatchOrderUtils.getBestMatchOrder(interclub));
+                    }
+
+                    LOGGER.info("Match order: {}", interclub.getMatchOrder());
+
                     App.model = interclub;
                 } catch (IOException e) {
                     LOGGER.error("Error while parsing file {}: ", file.getAbsolutePath(), e);

@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.stream.Stream;
 
 import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_NUMERIC;
@@ -182,12 +184,11 @@ public final class XlsLoader {
 
             // single or double ?
             boolean isDouble = strMatchType.startsWith("D");
-            int nbPlayers = isDouble ? 2 : 1;
 
-            for(int idxPlayer = 0; idxPlayer < nbPlayers; idxPlayer++) {
+            for(HSSFRow row : (isDouble ? Arrays.asList(row1, row2) : Collections.singletonList(row1))) {
                 // get licence numbers
-                int hostLicence = (int) row1.getCell(3).getNumericCellValue();
-                int guestLicence = (int) row1.getCell(9).getNumericCellValue();
+                int hostLicence = (int) row.getCell(3).getNumericCellValue();
+                int guestLicence = (int) row.getCell(9).getNumericCellValue();
 
                 // get players
                 Player hostPlayer = host.getPlayers().stream().filter(player -> player.getLicence() == hostLicence).findAny()
