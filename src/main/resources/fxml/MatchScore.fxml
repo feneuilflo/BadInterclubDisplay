@@ -15,9 +15,9 @@
 
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="55.0"/>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0"/>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0"/>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" halignment="CENTER"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" halignment="CENTER"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" halignment="CENTER"/>
     </columnConstraints>
 
     <rowConstraints>
@@ -25,15 +25,19 @@
         <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="50.0"/>
     </rowConstraints>
 
-    <Label fx:id="lblHostPlayer" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-    <Label fx:id="lblGuestPlayer" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <StackPane fx:id="rgnPlayers" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="2" GridPane.fillWidth="true" GridPane.fillHeight="true"/>
+    <Label fx:id="lblHostPlayer" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="court-player-text"/>
+    <Label fx:id="lblGuestPlayer" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="court-player-text"/>
 
-    <Label fx:id="lblHostSet1" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-    <Label fx:id="lblGuestSet1" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    <StackPane fx:id="rgnSet1" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.rowSpan="2" GridPane.fillWidth="true" GridPane.fillHeight="true"/>
+    <Label fx:id="lblHostSet1" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="court-score-text"/>
+    <Label fx:id="lblGuestSet1" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="court-score-text"/>
 
-    <Label fx:id="lblHostSet2" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
-    <Label fx:id="lblGuestSet2" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+    <StackPane fx:id="rgnSet2" GridPane.columnIndex="2" GridPane.rowIndex="0" GridPane.rowSpan="2" GridPane.fillWidth="true" GridPane.fillHeight="true"/>
+    <Label fx:id="lblHostSet2" GridPane.rowIndex="0" GridPane.columnIndex="2" styleClass="court-score-text"/>
+    <Label fx:id="lblGuestSet2" GridPane.rowIndex="1" GridPane.columnIndex="2" styleClass="court-score-text"/>
 
-    <Label fx:id="lblHostSet3" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
-    <Label fx:id="lblGuestSet3" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+    <StackPane fx:id="rgnSet3" GridPane.columnIndex="3" GridPane.rowIndex="0" GridPane.rowSpan="2" GridPane.fillWidth="true" GridPane.fillHeight="true"/>
+    <Label fx:id="lblHostSet3" GridPane.rowIndex="0" GridPane.columnIndex="3" styleClass="court-score-text"/>
+    <Label fx:id="lblGuestSet3" GridPane.rowIndex="1" GridPane.columnIndex="3" styleClass="court-score-text"/>
 </GridPane>
