@@ -4,6 +4,7 @@ import com.bad.interclub.display.bach.model.Interclub;
 import com.bad.interclub.display.bach.model.MatchOrderUtils;
 import com.bad.interclub.display.bach.xls.XlsLoader;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.*;
 import java.util.Objects;
 
 public class App extends Application{
@@ -82,6 +84,12 @@ public class App extends Application{
 
                     LOGGER.info("Match order: {}", interclub.getMatchOrder());
 
+                    // listen for file modification
+                    Thread thread = new Thread(() -> listenForFileModifcation(file));
+                    thread.setDaemon(true);
+                    thread.setName("FileChangeListener");
+                    thread.start();
+
                     App.model = interclub;
                 } catch (IOException e) {
                     LOGGER.error("Error while parsing file {}: ", file.getAbsolutePath(), e);
@@ -89,6 +97,46 @@ public class App extends Application{
                 }
             }
         }
+    }
 
+    private void listenForFileModifcation(File file) {
+        try {
+            // create watch service
+            WatchService watchService
+                    = FileSystems.getDefault().newWatchService();
+
+            // get directory
+            Path path = file.getParentFile().toPath();
+
+            // register watch service for file changes
+            path.register(
+                    watchService,
+                    StandardWatchEventKinds.ENTRY_MODIFY);
+
+            // listen for file change
+            WatchKey key;
+            while ((key = watchService.take()) != null) {
+                for (WatchEvent<?> event : key.pollEvents()) {
+                    System.out.println("Event kind:" + event.kind()
+                                    + ". File affected: " + event.context() + ".");
+                    if(event.kind() == StandardWatchEventKinds.ENTRY_MODIFY
+                        && path.resolve((Path) event.context()).toString().equals(file.toPath().toString())) {
+                        LOGGER.info("File updated !");
+                        // update model
+                        Platform.runLater(() -> {
+                            try {
+                                XlsLoader.updateWithFile(App.model, file);
+                            } catch (IOException e) {
+                                LOGGER.error("An exception occurred while parsing file: ", e);
+                            }
+                        });
+                    }
+
+                }
+                key.reset();
+            }
+        } catch(Exception e) {
+            LOGGER.error("An exception occurred while listening for file changes: ", e);
+        }
     }
 }

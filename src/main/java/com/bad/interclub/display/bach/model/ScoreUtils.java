@@ -61,8 +61,6 @@ public final class ScoreUtils {
         return getWinnerProperty(match.getScore());
     }
 
-
-
     public static long getHostScore(Interclub interclub) {
         return interclub.getMatches().values().stream()
                 .filter(match -> getWinner(match) > 0)

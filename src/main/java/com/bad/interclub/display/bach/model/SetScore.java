@@ -1,5 +1,7 @@
 package com.bad.interclub.display.bach.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableBooleanValue;
@@ -7,11 +9,11 @@ import javafx.beans.value.ObservableIntegerValue;
 
 public class SetScore {
 
-    private final ObservableIntegerValue hostPoints;
-    private final ObservableBooleanValue hostForfeit;
+    private final IntegerProperty hostPoints;
+    private final BooleanProperty hostForfeit;
 
-    private final ObservableIntegerValue guestPoints;
-    private final ObservableBooleanValue guestForfeit;
+    private final IntegerProperty guestPoints;
+    private final BooleanProperty guestForfeit;
 
     private SetScore(int hostPoints, boolean hostForfeit, int guestPoints, boolean guestForfeit) {
         this.hostPoints = new SimpleIntegerProperty(hostPoints);
@@ -28,13 +30,19 @@ public class SetScore {
         return hostPoints.get();
     }
 
+    public void setHostPoints(int hostPoints) {
+        this.hostPoints.set(hostPoints);
+    }
+
     public ObservableIntegerValue hostPointsProperty() {
         return hostPoints;
     }
 
-    public Boolean getHostForfeit() {
+    public boolean getHostForfeit() {
         return hostForfeit.get();
     }
+
+
 
     public ObservableBooleanValue hostForfeitProperty() {
         return hostForfeit;
@@ -44,11 +52,15 @@ public class SetScore {
         return guestPoints.get();
     }
 
+    public void setGuestPoints(int guestPoints) {
+        this.guestPoints.set(guestPoints);
+    }
+
     public ObservableIntegerValue guestPointsProperty() {
         return guestPoints;
     }
 
-    public Boolean getGuestForfeit() {
+    public boolean getGuestForfeit() {
         return guestForfeit.get();
     }
 

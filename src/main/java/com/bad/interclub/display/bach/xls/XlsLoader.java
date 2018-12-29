@@ -55,6 +55,14 @@ public final class XlsLoader {
                 .build();
     }
 
+    public static void updateWithFile(Interclub interclub, File file) throws IOException {
+        POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(file));
+        HSSFWorkbook wb = new HSSFWorkbook(fs);
+
+        // build matches
+        updateMatches(wb, interclub);
+    }
+
     private static Interclub.InterclubBuilder initWithGeneralInformations(HSSFWorkbook wb) {
         LOGGER.info("Loading general informations...");
         HSSFSheet sheet = wb.getSheet(GENERAL_INFO_SHEET_NAME);
@@ -216,13 +224,52 @@ public final class XlsLoader {
 
     }
 
+    private static void updateMatches(HSSFWorkbook wb, Interclub interclub) {
+        HSSFSheet sheet = wb.getSheet(GENERAL_INFO_SHEET_NAME);
+
+        for (int rowIdx = 17; rowIdx < sheet.getLastRowNum(); rowIdx+=2) {
+            HSSFRow row1 = sheet.getRow(rowIdx);
+            HSSFRow row2 = sheet.getRow(rowIdx + 1);
+
+            if(row1 == null) {
+                LOGGER.info("No more matches...");
+                break;
+            }
+
+            // check row
+            HSSFCell cell = row1.getCell(6);
+            if (cell == null || cell.getCellType() != CELL_TYPE_STRING
+                    || Stream.of(Match.EMatchType.values()).noneMatch(type -> type.toString().equalsIgnoreCase(cell.getStringCellValue()))) {
+                LOGGER.info("No more matches...");
+                break;
+            }
+
+            // get match type
+            String strMatchType = row1.getCell(6).getStringCellValue();
+            Match.EMatchType matchType = Match.EMatchType.valueOf(strMatchType);
+            Match match = interclub.getMatches().get(matchType);
+
+            // update score
+            updateScore(match.getScore().getSet1(), row1, row2, 1);
+            updateScore(match.getScore().getSet2(), row1, row2, 2);
+            updateScore(match.getScore().getSet3(), row1, row2, 3);
+        }
+    }
+
     private static SetScore getScore(HSSFRow row1, HSSFRow row2, int numSet) {
-        return SetScore.newBuilder()
-                .withHostPoints((int) row1.getCell(10 + 2 * numSet).getNumericCellValue())
-                .withGuestPoints((int) row2.getCell(11 + 2 * numSet).getNumericCellValue())
+        SetScore setScore = SetScore.newBuilder()
+                .withHostPoints(0)
+                .withGuestPoints(0)
                 .withGuestForfeit(false)
                 .withHostForfeit(false)
                 .build();
+        updateScore(setScore, row1, row2, numSet);
+        return setScore;
+    }
+
+    private static void updateScore(SetScore score, HSSFRow row1, HSSFRow row2, int numSet) {
+        score.setHostPoints((int) row1.getCell(10 + 2 * numSet).getNumericCellValue());
+        score.setGuestPoints((int) row2.getCell(11 + 2 * numSet).getNumericCellValue());
     }
 
 }
