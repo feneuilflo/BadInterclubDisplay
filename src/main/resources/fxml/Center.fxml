@@ -7,9 +7,10 @@
 <?import javafx.scene.layout.*?>
 
 <GridPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.bad.interclub.display.bach.ui.controllers.CenterController"
-            style="-fx-background-color: red;"  alignment="center" hgap="1" vgap="1">
+          xmlns:fx="http://javafx.com/fxml"
+          fx:id="node"
+          fx:controller="com.bad.interclub.display.bach.ui.controllers.CenterController"
+          style="-fx-background-color: red;" alignment="center" hgap="1" vgap="1">
 
     <gridLinesVisible>true</gridLinesVisible>
 
