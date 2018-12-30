@@ -91,20 +91,13 @@ public class SponsorNodeController implements Initializable {
                 offset = offset.add(wrappedImageView.getHeightProperty());
             }
 
-            // repeat for animation purpose
-            for (Image image : images) {
-                WrappedImageView wrappedImageView = new WrappedImageView(image);
-                wrappedImageView.translateYProperty().bind(offset.add(wrappedImageView.getHeightProperty().divide(2)));
-                node.getChildren().add(wrappedImageView);
-                offset = offset.add(wrappedImageView.getHeightProperty());
-            }
-
             // setup animation
             ObservableList<DoubleProperty> heights = FXCollections.observableList(node.getChildren().stream()
                             .filter(node -> node instanceof WrappedImageView)
                             .map(node -> ((WrappedImageView) node).getHeightProperty())
                             .collect(Collectors.toList()),
                     param -> new DoubleProperty[] {param});
+
             atTimeline = new AtomicReference<>(setupAnimation(animationOffset, 0.0));
             heights.addListener((ListChangeListener<? super DoubleProperty>) c -> {
                 double sum = heights.stream()
@@ -112,11 +105,21 @@ public class SponsorNodeController implements Initializable {
                         .sum();
                 atTimeline.getAndUpdate(old -> {
                     old.stop();
-                    Timeline timeline = setupAnimation(animationOffset, sum / 2);
+                    Timeline timeline = setupAnimation(animationOffset, sum);
                     timeline.play();
                     return timeline;
                 });
             });
+
+            // repeat to fill the blank space that may appear at the end of the animation
+            for(int i = 0; i < 2; i++) {
+                for (Image image : images) {
+                    WrappedImageView wrappedImageView = new WrappedImageView(image);
+                    wrappedImageView.translateYProperty().bind(offset.add(wrappedImageView.getHeightProperty().divide(2)));
+                    node.getChildren().add(wrappedImageView);
+                    offset = offset.add(wrappedImageView.getHeightProperty());
+                }
+            }
 
         } catch (URISyntaxException e) {
             LOGGER.error("Failed to load sponsors - ex=", e);
