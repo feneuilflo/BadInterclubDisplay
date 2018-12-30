@@ -4,8 +4,7 @@ import com.bad.interclub.display.bach.model.Interclub;
 import com.bad.interclub.display.bach.model.ScoreUtils;
 import com.bad.interclub.display.bach.ui.App;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableLongValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -38,7 +37,10 @@ public class HeaderController implements Initializable {
         lblHostName.setText(model.getHost().getName());
         lblGuestName.setText(model.getGuest().getName());
 
-        lblHostPoints.textProperty().bind(Bindings.createStringBinding(() -> String.valueOf(ScoreUtils.getHostScore(model)), ScoreUtils.getHostScoreProperty(model)));
-        lblGuestPoints.textProperty().bind(Bindings.createStringBinding(() -> String.valueOf(ScoreUtils.getGuestScore(model)), ScoreUtils.getGuestScoreProperty(model)));
+        ObservableLongValue hostScoreProperty = ScoreUtils.getHostScoreProperty(model);
+        lblHostPoints.textProperty().bind(Bindings.createStringBinding(() -> String.valueOf(hostScoreProperty.get()), hostScoreProperty));
+
+        ObservableLongValue guestScoreProperty = ScoreUtils.getGuestScoreProperty(model);
+        lblGuestPoints.textProperty().bind(Bindings.createStringBinding(() -> String.valueOf(guestScoreProperty.get()), guestScoreProperty));
     }
 }

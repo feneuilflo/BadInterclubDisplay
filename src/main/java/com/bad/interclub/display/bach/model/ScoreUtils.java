@@ -5,6 +5,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableIntegerValue;
 import javafx.beans.value.ObservableLongValue;
 
+import java.util.stream.Stream;
+
 public final class ScoreUtils {
 
     private ScoreUtils() {
@@ -51,15 +53,15 @@ public final class ScoreUtils {
                 setScore.hostPointsProperty(), setScore.guestPointsProperty());
     }
 
-    public static ObservableIntegerValue getWinnerProperty(MatchScore matchScore) {
-        return Bindings.createIntegerBinding(() -> getWinner(matchScore),
-                matchScore.hostForfeitProperty(), matchScore.guestForfeitProperty(),
-                getWinnerProperty(matchScore.getSet1()), getWinnerProperty(matchScore.getSet2()), getWinnerProperty(matchScore.getSet3()));
-    }
-
-    public static ObservableIntegerValue getWinnerProperty(Match match) {
-        return getWinnerProperty(match.getScore());
-    }
+//    public static ObservableIntegerValue getWinnerProperty(MatchScore matchScore) {
+//        return Bindings.createIntegerBinding(() -> getWinner(matchScore),
+//                matchScore.hostForfeitProperty(), matchScore.guestForfeitProperty(),
+//                getWinnerProperty(matchScore.getSet1()), getWinnerProperty(matchScore.getSet2()), getWinnerProperty(matchScore.getSet3()));
+//    }
+//
+//    public static ObservableIntegerValue getWinnerProperty(Match match) {
+//        return getWinnerProperty(match.getScore());
+//    }
 
     public static long getHostScore(Interclub interclub) {
         return interclub.getMatches().values().stream()
@@ -75,12 +77,22 @@ public final class ScoreUtils {
 
     public static ObservableLongValue getHostScoreProperty(Interclub interclub) {
         return Bindings.createLongBinding(() -> getHostScore(interclub),
-                interclub.getMatches().values().stream().map(ScoreUtils::getWinnerProperty).toArray(Observable[]::new));
+                interclub.getMatches().values().stream()
+                        .map(Match::getScore)
+                        .flatMap(score -> Stream.of(score.getSet1(), score.getSet3()))
+                        .flatMap(setScore -> Stream.<Observable>of(setScore.guestForfeitProperty(), setScore.hostForfeitProperty(),
+                                setScore.hostPointsProperty(), setScore.guestPointsProperty()))
+                        .toArray(Observable[]::new));
     }
 
     public static ObservableLongValue getGuestScoreProperty(Interclub interclub) {
         return Bindings.createLongBinding(() -> getGuestScore(interclub),
-                interclub.getMatches().values().stream().map(ScoreUtils::getWinnerProperty).toArray(Observable[]::new));
+                interclub.getMatches().values().stream()
+                        .map(Match::getScore)
+                        .flatMap(score -> Stream.of(score.getSet1(), score.getSet3()))
+                        .flatMap(setScore -> Stream.<Observable>of(setScore.guestForfeitProperty(), setScore.hostForfeitProperty(),
+                                setScore.hostPointsProperty(), setScore.guestPointsProperty()))
+                        .toArray(Observable[]::new));
     }
 
 }
