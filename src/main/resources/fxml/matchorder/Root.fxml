@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            fx:controller="com.bad.interclub.display.bach.ui.controllers.MatchOrderRootController"
+            xmlns:fx="http://javafx.com/fxml"
+            prefWidth="600" prefHeight="400"
+            style="-fx-background-color: grey;">
+
+    <top>
+        <StackPane>
+            <Label text="Choix de l'ordre des matchs" alignment="CENTER_RIGHT" textAlignment="CENTER"
+                   styleClass="court-header-text"/>
+        </StackPane>
+    </top>
+
+    <center>
+        <GridPane style="-fx-background-color: darkslategrey;">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="34"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="33"/>
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS" minHeight="10.0" percentHeight="100.0"/>
+            </rowConstraints>
+
+            <GridPane GridPane.columnIndex="0"
+                      GridPane.fillWidth="true" GridPane.fillHeight="true"
+                      vgap="25">
+                <padding>
+                    <Insets top="25" right="25" bottom="25" left="25"/>
+                </padding>
+
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="100.0"/>
+                </columnConstraints>
+
+                <rowConstraints>
+                    <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="30.0"/>
+                    <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="40.0"/>
+                    <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="30.0"/>
+                </rowConstraints>
+
+                <StackPane GridPane.rowIndex="0" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                           fx:id="rgnSH1" styleClass="match-order-label-rgn">
+                    <Label text="SH1" styleClass="match-order-label-type"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                    <Label fx:id="lblOrderSH1" styleClass="match-order-label-order"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                </StackPane>
+
+                <StackPane GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                           fx:id="rgnDH" styleClass="match-order-label-rgn">
+                    <Label text="DH" styleClass="match-order-label-type"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                    <Label fx:id="lblOrderDH" styleClass="match-order-label-order"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                </StackPane>
+
+                <StackPane GridPane.rowIndex="2" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                           fx:id="rgnSH2" styleClass="match-order-label-rgn">
+                    <Label text="SH2" styleClass="match-order-label-type"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                    <Label fx:id="lblOrderSH2" styleClass="match-order-label-order"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                </StackPane>
+            </GridPane>
+
+            <GridPane GridPane.columnIndex="1"
+                      GridPane.fillWidth="true" GridPane.fillHeight="true"
+                      vgap="25">
+                <padding>
+                    <Insets top="25" right="25" bottom="25" left="25"/>
+                </padding>
+
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="100.0"/>
+                </columnConstraints>
+
+                <rowConstraints>
+                    <RowConstraints vgrow="SOMETIMES" percentHeight="2.0"/>
+                    <RowConstraints vgrow="SOMETIMES" percentHeight="48.0"/>
+                    <RowConstraints vgrow="SOMETIMES" percentHeight="48.0"/>
+                    <RowConstraints vgrow="SOMETIMES" percentHeight="2.0"/>
+                </rowConstraints>
+
+                <StackPane GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                           fx:id="rgnDM1" styleClass="match-order-label-rgn">
+                    <Label text="DM1" styleClass="match-order-label-type"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                    <Label fx:id="lblOrderDM1" styleClass="match-order-label-order"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                </StackPane>
+
+                <StackPane GridPane.rowIndex="2" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                           fx:id="rgnDM2" styleClass="match-order-label-rgn">
+                    <Label text="DM2" styleClass="match-order-label-type"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                    <Label fx:id="lblOrderDM2" styleClass="match-order-label-order"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                </StackPane>
+            </GridPane>
+
+            <GridPane GridPane.columnIndex="2"
+                      GridPane.fillWidth="true" GridPane.fillHeight="true"
+                      vgap="25">
+                <padding>
+                    <Insets top="25" right="25" bottom="25" left="25"/>
+                </padding>
+
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="100.0"/>
+                </columnConstraints>
+
+                <rowConstraints>
+                    <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="30.0"/>
+                    <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="40.0"/>
+                    <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="30.0"/>
+                </rowConstraints>
+
+                <StackPane GridPane.rowIndex="0" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                           fx:id="rgnSD1" styleClass="match-order-label-rgn">
+                    <Label text="SD1" styleClass="match-order-label-type"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                    <Label fx:id="lblOrderSD1" styleClass="match-order-label-order"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                </StackPane>
+
+                <StackPane GridPane.rowIndex="1" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                           fx:id="rgnDD" styleClass="match-order-label-rgn">
+                    <Label text="DD" styleClass="match-order-label-type"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                    <Label fx:id="lblOrderDD" styleClass="match-order-label-order"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                </StackPane>
+
+                <StackPane GridPane.rowIndex="2" GridPane.fillWidth="true" GridPane.fillHeight="true"
+                           fx:id="rgnSD2" styleClass="match-order-label-rgn">
+                    <Label text="SD2" styleClass="match-order-label-type"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                    <Label fx:id="lblOrderSD2" styleClass="match-order-label-order"
+                           alignment="CENTER" textAlignment="CENTER"/>
+                </StackPane>
+            </GridPane>
+        </GridPane>
+    </center>
+
+    <bottom>
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="55"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15"/>
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS" minHeight="10.0" percentHeight="100.0"/>
+            </rowConstraints>
+
+            <StackPane GridPane.rowIndex="0" GridPane.columnIndex="0"
+                GridPane.fillHeight="true" GridPane.fillWidth="true">
+                <Label fx:id="lblMatchOrderSummary" styleClass="match-order-label-summary"/>
+            </StackPane>
+
+            <Button fx:id="btnAuto" text="Auto" onAction="#onAutoBtnAction"
+                    prefWidth="60" styleClass="match-order-button"
+                    GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Button fx:id="btnReset" text="Reset" onAction="#onResetBtnAction"
+                    prefWidth="60" styleClass="match-order-button"
+                    GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+
+            <Button fx:id="btnOK" text="OK" onAction="#onOKBtnAction"
+                    prefWidth="60" styleClass="match-order-button"
+                    GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+
+        </GridPane>
+    </bottom>
+</BorderPane>

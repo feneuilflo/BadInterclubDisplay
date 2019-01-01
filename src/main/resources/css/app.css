@@ -4,12 +4,14 @@
 
     -guest-color-1:mediumblue;
     -guest-color-2:darkblue;
+
+    -text-dft-font-family: "Helvetica";
 }
 
 .header-text {
     -fx-text-fill:white;
     -fx-padding: 15 30 15 30;
-    -fx-font-family: "Helvetica";
+    -fx-font-family: -text-dft-font-family;
     -fx-font-size: 3em; /* relative size */
     -fx-font-weight: bold;
 
@@ -27,7 +29,7 @@
 .court-header-text {
     -fx-text-fill:sandybrown;
     -fx-padding: 15 30 15 30;
-    -fx-font-family: "Helvetica";
+    -fx-font-family: -text-dft-font-family;
     -fx-font-size: 2.8em; /* relative size */
     -fx-font-weight: bold;
     -fx-font-style: italic;
@@ -36,14 +38,62 @@
 .court-player-text {
     -fx-text-fill:white;
     -fx-padding: 15 15 15 15;
-    -fx-font-family: "Helvetica";
+    -fx-font-family: -text-dft-font-family;
     -fx-font-size: 2.0em; /* relative size */
     -fx-font-weight: bold;
 }
 
 .court-score-text {
     -fx-text-fill:white;
-    -fx-font-family: "Helvetica";
+    -fx-font-family: -text-dft-font-family;
     -fx-font-size: 2.0em; /* relative size */
     -fx-font-weight: bold;
+}
+
+.match-order-label-type {
+    -fx-text-fill:white;
+    -fx-font-family: -text-dft-font-family;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.match-order-label-order {
+    -fx-text-fill:black;
+    -fx-font-family: -text-dft-font-family;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+}
+
+.match-order-label-rgn {
+    -fx-background-color: silver;
+    -fx-background-insets: 0;
+    -fx-background-radius: 9;
+}
+
+.match-order-label-rgn-border {
+    -fx-border-color: red;
+    -fx-border-width: 2;
+    -fx-border-style: solid;
+    -fx-border-radius: 9;
+}
+
+.match-order-label-summary {
+    -fx-text-fill: black;
+    -fx-font-family: -text-dft-font-family;
+    -fx-font-size: 14px;
+}
+
+.match-order-button {
+    -fx-background-color:
+            linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),
+            linear-gradient(#020b02, #3a3a3a),
+            linear-gradient(#9d9e9d 0%, #6b6a6b 20%, #343534 80%, #242424 100%),
+            linear-gradient(#8a8a8a 0%, #6b6a6b 20%, #343534 80%, #262626 100%),
+            linear-gradient(#777777 0%, #606060 50%, #505250 51%, #2a2b2a 100%);
+    -fx-background-insets: 0,1,4,5,6;
+    -fx-background-radius: 9,8,5,4,3;
+    -fx-font-family: -text-dft-font-family;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
 }

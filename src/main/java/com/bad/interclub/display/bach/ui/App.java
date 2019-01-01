@@ -9,9 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.stage.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,11 +47,26 @@ public class App extends Application{
 
         // build stage
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("icon.png")));
+        primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("icon.png"))));
         primaryStage.setScene(scene);
 
         // show
         primaryStage.show();
+
+        //
+        Parent matchOrderRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/matchorder/Root.fxml")));
+        Scene matchOrderScene = new Scene(matchOrderRoot, 600, 400);
+        matchOrderScene.getStylesheets().add(css);
+
+        Stage matchOrderStage = new Stage();
+        matchOrderStage.initOwner(primaryStage);
+        matchOrderStage.initModality(Modality.APPLICATION_MODAL);
+        //matchOrderStage.initStyle(StageStyle.UNDECORATED);
+        matchOrderStage.centerOnScreen();
+        matchOrderStage.setScene(matchOrderScene);
+
+
+        matchOrderStage.show();
     }
 
 
@@ -121,7 +134,7 @@ public class App extends Application{
                                     + ". File affected: " + event.context() + ".");
                     if(event.kind() == StandardWatchEventKinds.ENTRY_MODIFY
                         && path.resolve((Path) event.context()).toString().equals(file.toPath().toString())) {
-                        LOGGER.info("File updated !");
+                        LOGGER.info("WatchService - File updated !");
                         // update model
                         Platform.runLater(() -> {
                             try {
