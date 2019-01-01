@@ -1,0 +1,9 @@
+général
+* importer l'ordre des matchs présent dans le fichier
+
+match order
+* dégradé sur un coin même quand il n'y a qu'un conflit par match
+* éviter de modifier l'état des boutons juste via le survol des labels par le curseur (via un ordre de match temporaire ?)
+* gérer le bouton auto
+* utiliser l'ordre des matchs présent dans le modèle
+* tester la réprésentation matricielle
