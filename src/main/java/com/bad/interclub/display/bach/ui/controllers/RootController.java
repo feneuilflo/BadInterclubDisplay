@@ -1,15 +1,26 @@
 package com.bad.interclub.display.bach.ui.controllers;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class RootController implements Initializable {
@@ -35,5 +46,38 @@ public class RootController implements Initializable {
 
             }
         });
+
+
+        //
+        try {
+            Parent matchOrderRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/matchorder/Root.fxml")));
+
+            Scene matchOrderScene = new Scene(matchOrderRoot, 600, 400);
+            matchOrderScene.setFill(Color.TRANSPARENT);
+            Stage matchOrderStage = new Stage();
+
+            node.setOnKeyPressed(ev -> {
+                if(ev.isControlDown() && ev.getCode() == KeyCode.N) {
+                    matchOrderStage.show();
+                }
+            });
+
+            Platform.runLater(() -> {
+                matchOrderScene.getStylesheets().addAll(node.getScene().getStylesheets());
+
+                matchOrderStage.initOwner(node.getScene().getWindow());
+                matchOrderStage.initModality(Modality.APPLICATION_MODAL);
+                matchOrderStage.initStyle(StageStyle.TRANSPARENT);
+                matchOrderStage.centerOnScreen();
+                matchOrderStage.setScene(matchOrderScene);
+
+                matchOrderStage.show();
+            });
+
+
+        } catch (IOException ioe) {
+            LOGGER.error("Failed to init match order Windows: ", ioe);
+        }
+
     }
 }

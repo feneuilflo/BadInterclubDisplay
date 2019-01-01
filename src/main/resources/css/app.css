@@ -50,6 +50,12 @@
     -fx-font-weight: bold;
 }
 
+.match-order-root {
+    -fx-background-color: silver;
+    -fx-background-insets: 0;
+    -fx-background-radius: 9;
+}
+
 .match-order-label-type {
     -fx-text-fill:white;
     -fx-font-family: -text-dft-font-family;

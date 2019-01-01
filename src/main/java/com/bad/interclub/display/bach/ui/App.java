@@ -52,21 +52,6 @@ public class App extends Application{
 
         // show
         primaryStage.show();
-
-        //
-        Parent matchOrderRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/matchorder/Root.fxml")));
-        Scene matchOrderScene = new Scene(matchOrderRoot, 600, 400);
-        matchOrderScene.getStylesheets().add(css);
-
-        Stage matchOrderStage = new Stage();
-        matchOrderStage.initOwner(primaryStage);
-        matchOrderStage.initModality(Modality.APPLICATION_MODAL);
-        //matchOrderStage.initStyle(StageStyle.UNDECORATED);
-        matchOrderStage.centerOnScreen();
-        matchOrderStage.setScene(matchOrderScene);
-
-
-        matchOrderStage.show();
     }
 
 

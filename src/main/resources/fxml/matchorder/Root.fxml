@@ -11,7 +11,7 @@
             fx:controller="com.bad.interclub.display.bach.ui.controllers.MatchOrderRootController"
             xmlns:fx="http://javafx.com/fxml"
             prefWidth="600" prefHeight="400"
-            style="-fx-background-color: grey;">
+            styleClass="match-order-root">
 
     <top>
         <StackPane>
@@ -155,6 +155,10 @@
 
     <bottom>
         <GridPane>
+            <padding>
+                <Insets top="5" right="5" bottom="5" left="5"/>
+            </padding>
+
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="55"/>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15"/>
