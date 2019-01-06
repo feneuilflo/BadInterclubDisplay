@@ -6,7 +6,6 @@ import com.bad.interclub.display.bach.model.MatchOrderUtils;
 import com.bad.interclub.display.bach.model.Player;
 import com.bad.interclub.display.bach.ui.App;
 import com.google.common.collect.ImmutableMap;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -263,40 +262,35 @@ public class MatchOrderRootController implements Initializable {
 
         Map<Match.EMatchType, Conflict> conflicts = conflictList.getValues();
 
-        if (conflicts.size() == 1) {
-            Conflict value = conflicts.values().stream().findAny().orElseThrow(() -> new IllegalStateException("Should not pass here..."));
-            return String.format("-fx-background-color: %s;", colorToCSS(value.getColor()));
-        }
-
         switch (conflictList.getMatchType()) {
             case DM1:
             case DM2:
-                return computeComplexStyleMixted(conflictList);
+                return computeStyleMixted(conflictList);
 
             case SH1:
-                return computeComplexStyleSH1(conflicts);
+                return computeStyleSH1(conflicts);
 
             case SH2:
-                return computeComplexStyleSH2(conflicts);
+                return computeStyleSH2(conflicts);
 
             case DH:
-                return computeComplexStyleDH(conflicts);
+                return computeStyleDH(conflicts);
 
             case SD1:
-                return computeComplexStyleSD1(conflicts);
+                return computeStyleSD1(conflicts);
 
             case SD2:
-                return computeComplexStyleSD2(conflicts);
+                return computeStyleSD2(conflicts);
 
             case DD:
-                return computeComplexStyleDD(conflicts);
+                return computeStyleDD(conflicts);
 
             default:
                 throw new IllegalStateException("Unknown match type: " + conflictList.getMatchType());
         }
     }
 
-    private static String computeComplexStyleMixted(ConflictList conflictList) {
+    private static String computeStyleMixted(ConflictList conflictList) {
         Color nw = null, ne = null, sw = null, se = null;
         Map<Match.EMatchType, Conflict> conflicts = conflictList.getValues();
 
@@ -347,98 +341,115 @@ public class MatchOrderRootController implements Initializable {
         return colorToCSS(nw, sw, se, ne, true);
     }
 
-    private static String computeComplexStyleSH1(Map<Match.EMatchType, Conflict> conflicts) {
-        // at this point, 'conflicts' contains 2 values between DH, DM1 or DM2
+    private static String computeStyleSH1(Map<Match.EMatchType, Conflict> conflicts) {
+        // at this point, 'conflicts' contains at most 2 values in DH, DM1 or DM2
 
-        Color nw = null, ne = null, sw = null, se;
+        Color nw = null, ne = null, sw = null, se = null;
 
-        if (conflicts.containsKey(Match.EMatchType.DH)) {
+        if(conflicts.containsKey(Match.EMatchType.DH)) {
             // south west - color from conflicts with DH
             sw = conflicts.get(Match.EMatchType.DH).getColor();
+        }
 
-            // south east - color from conflicts with DM (1 or 2)
-            se = (conflicts.containsKey(Match.EMatchType.DM1) ? conflicts.get(Match.EMatchType.DM1) : conflicts.get(Match.EMatchType.DM2)).getColor();
-        } else {
-            // north east - color from conflicts with DM1
-            ne = conflicts.get(Match.EMatchType.DM1).getColor();
-
-            // north east - color from conflicts with DM2
+        if(conflicts.containsKey(Match.EMatchType.DM2)) {
+            // south east - color from conflicts with DM2
             se = conflicts.get(Match.EMatchType.DM2).getColor();
         }
 
+        if(conflicts.containsKey(Match.EMatchType.DM1)) {
+            // south east or north east - color from conflicts with DM1
+            if(se == null) {
+                se = conflicts.get(Match.EMatchType.DM1).getColor();
+            } else {
+                ne = conflicts.get(Match.EMatchType.DM1).getColor();
+            }
+        }
 
         return colorToCSS(nw, sw, se, ne, false);
     }
 
-    private static String computeComplexStyleSH2(Map<Match.EMatchType, Conflict> conflicts) {
-        // at this point, 'conflicts' contains 2 values between DH, DM1 or DM2
+    private static String computeStyleSH2(Map<Match.EMatchType, Conflict> conflicts) {
+        // at this point, 'conflicts' contains at most 2 values in DH, DM1 or DM2
 
-        Color nw = null, ne, sw = null, se = null;
+        Color nw = null, ne = null, sw = null, se = null;
 
-        if (conflicts.containsKey(Match.EMatchType.DH)) {
+        if(conflicts.containsKey(Match.EMatchType.DH)) {
             // north west - color from conflicts with DH
             nw = conflicts.get(Match.EMatchType.DH).getColor();
-
-            // north east - color from conflicts with DM (1 or 2)
-            ne = (conflicts.containsKey(Match.EMatchType.DM1) ? conflicts.get(Match.EMatchType.DM1) : conflicts.get(Match.EMatchType.DM2)).getColor();
-        } else {
-            // north east - color from conflicts with DM1
-            ne = conflicts.get(Match.EMatchType.DM1).getColor();
-
-            // north east - color from conflicts with DM2
-            se = conflicts.get(Match.EMatchType.DM2).getColor();
         }
 
+        if(conflicts.containsKey(Match.EMatchType.DM1)) {
+            // north east - color from conflicts with DM1
+            ne = conflicts.get(Match.EMatchType.DM1).getColor();
+        }
+
+        if(conflicts.containsKey(Match.EMatchType.DM2)) {
+            // north east or south east - color from conflicts with DM2
+            if(ne == null) {
+                ne = conflicts.get(Match.EMatchType.DM2).getColor();
+            } else {
+                se = conflicts.get(Match.EMatchType.DM2).getColor();
+            }
+        }
 
         return colorToCSS(nw, sw, se, ne, false);
     }
 
-    private static String computeComplexStyleSD1(Map<Match.EMatchType, Conflict> conflicts) {
-        // at this point, 'conflicts' contains 2 values between DD, DM1 or DM2)
+    private static String computeStyleSD1(Map<Match.EMatchType, Conflict> conflicts) {
+        // at this point, 'conflicts' contains at most 2 values in DD, DM1 or DM2
 
-        Color nw = null, ne = null, sw, se = null;
+        Color nw = null, ne = null, sw = null, se = null;
 
-        if (conflicts.containsKey(Match.EMatchType.DD)) {
-            // south west - color from conflicts with DD
+        if(conflicts.containsKey(Match.EMatchType.DD)) {
+            // south east - color from conflicts with DD
             se = conflicts.get(Match.EMatchType.DD).getColor();
+        }
 
-            // south west - color from conflicts with DM (1 or 2)
-            sw = (conflicts.containsKey(Match.EMatchType.DM1) ? conflicts.get(Match.EMatchType.DM1) : conflicts.get(Match.EMatchType.DM2)).getColor();
-        } else {
-            // north west - color from conflicts with DM1
-            nw = conflicts.get(Match.EMatchType.DM1).getColor();
-
+        if(conflicts.containsKey(Match.EMatchType.DM2)) {
             // south west - color from conflicts with DM2
             sw = conflicts.get(Match.EMatchType.DM2).getColor();
         }
 
-
-        return colorToCSS(nw, sw, se, ne, false);
-    }
-
-    private static String computeComplexStyleSD2(Map<Match.EMatchType, Conflict> conflicts) {
-        // at this point, 'conflicts' contains 2 values between DD, DM1 or DM2)
-
-        Color nw, ne = null, sw = null, se = null;
-
-        if (conflicts.containsKey(Match.EMatchType.DD)) {
-            // north east - color from conflicts with DD
-            ne = conflicts.get(Match.EMatchType.DD).getColor();
-
-            // north west - color from conflicts with DM (1 or 2)
-            nw = (conflicts.containsKey(Match.EMatchType.DM1) ? conflicts.get(Match.EMatchType.DM1) : conflicts.get(Match.EMatchType.DM2)).getColor();
-        } else {
-            // north west - color from conflicts with DM1
-            nw = conflicts.get(Match.EMatchType.DM1).getColor();
-
-            // north west - color from conflicts with DM2
-            sw = conflicts.get(Match.EMatchType.DM2).getColor();
+        if(conflicts.containsKey(Match.EMatchType.DM1)) {
+            // south west or north west - color from conflicts with DM1
+            if(sw == null) {
+                sw = conflicts.get(Match.EMatchType.DM1).getColor();
+            } else {
+                nw = conflicts.get(Match.EMatchType.DM1).getColor();
+            }
         }
 
         return colorToCSS(nw, sw, se, ne, false);
     }
 
-    private static String computeComplexStyleDD(Map<Match.EMatchType, Conflict> conflicts) {
+    private static String computeStyleSD2(Map<Match.EMatchType, Conflict> conflicts) {
+        // at this point, 'conflicts' contains at most 2 values in DD, DM1 or DM2
+
+        Color nw = null, ne = null, sw = null, se = null;
+
+        if(conflicts.containsKey(Match.EMatchType.DD)) {
+            // north east - color from conflicts with DD
+            ne = conflicts.get(Match.EMatchType.DD).getColor();
+        }
+
+        if(conflicts.containsKey(Match.EMatchType.DM1)) {
+            // north west - color from conflicts with DM1
+            nw = conflicts.get(Match.EMatchType.DM1).getColor();
+        }
+
+        if(conflicts.containsKey(Match.EMatchType.DM2)) {
+            // north west or south west - color from conflicts with DM2
+            if(nw == null) {
+                nw = conflicts.get(Match.EMatchType.DM2).getColor();
+            } else {
+                sw = conflicts.get(Match.EMatchType.DM2).getColor();
+            }
+        }
+
+        return colorToCSS(nw, sw, se, ne, false);
+    }
+
+    private static String computeStyleDD(Map<Match.EMatchType, Conflict> conflicts) {
         Color nw = null, ne = null, sw = null, se = null;
 
         if (conflicts.containsKey(Match.EMatchType.SD1)) {
@@ -457,7 +468,7 @@ public class MatchOrderRootController implements Initializable {
         return colorToCSS(nw, sw, se, ne, true);
     }
 
-    private static String computeComplexStyleDH(Map<Match.EMatchType, Conflict> conflicts) {
+    private static String computeStyleDH(Map<Match.EMatchType, Conflict> conflicts) {
         Color nw = null, ne = null, sw = null, se = null;
 
         if (conflicts.containsKey(Match.EMatchType.SH1)) {
