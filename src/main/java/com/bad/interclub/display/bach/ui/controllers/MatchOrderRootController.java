@@ -18,6 +18,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.*;
@@ -25,6 +27,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 public class MatchOrderRootController implements Initializable {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MatchOrderRootController.class);
 
     // see https://stackoverflow.com/questions/470690/how-to-automatically-generate-n-distinct-colors
     // https://stackoverflow.com/a/4382138
@@ -106,8 +110,10 @@ public class MatchOrderRootController implements Initializable {
     private Map<Match.EMatchType, Region> mapRegion;
     private Map<Match.EMatchType, Label> mapLabelOrder;
 
+    // contains the current selected match order
+    private final ObservableList<Match.EMatchType> matchOrder = FXCollections.observableArrayList();
+    // contains a tmp match order, that may differ of 'matchOrder' based on the position of the cursor
     private final ObservableList<Match.EMatchType> matchOrderTmp = FXCollections.observableArrayList();
-    private final List<Match.EMatchType> currentConflictList = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -115,6 +121,7 @@ public class MatchOrderRootController implements Initializable {
         Interclub interclub = App.getModelInstance();
 
         List<MatchOrderUtils.Conflict> conflicts = MatchOrderUtils.getConflicts(interclub);
+        LOGGER.info("Conflicts: {}", conflicts);
 
         // build map region
         mapRegion = ImmutableMap.<Match.EMatchType, Region>builder()
@@ -147,10 +154,23 @@ public class MatchOrderRootController implements Initializable {
             c.addPlayer(conflict.getPlayer());
         });
 
-        // on match order modification
+        // on match order tmp modification
         matchOrderTmp.addListener((ListChangeListener<? super Match.EMatchType>) c -> {
-            // compute conflict list
-            currentConflictList.clear();
+            //
+            // conflicted matchs
+            mapRegion.values().forEach(rgn -> rgn.getStyleClass().remove("match-order-label-rgn-border"));
+            for (int idx = 1; idx < matchOrderTmp.size(); idx++) {
+                Match.EMatchType current = matchOrderTmp.get(idx);
+                int startIdx2Check = Math.max(0, idx % 2 == 0 ? idx - 2 : idx - 3);
+                List<Match.EMatchType> match2Check = matchOrderTmp.subList(startIdx2Check, idx);
+
+                if (match2Check.stream().anyMatch(type -> map.get(current).getValues().containsKey(type))) {
+                    mapRegion.get(current).getStyleClass().add("match-order-label-rgn-border");
+                }
+            }
+
+            // compute current conflict list
+            List<Match.EMatchType> currentConflictList = new ArrayList<>();
             if (!matchOrderTmp.isEmpty()) {
                 int startIdx = matchOrderTmp.size() - (matchOrderTmp.size() % 2 == 1 ? 3 : 2);
                 if (startIdx < 0) startIdx = 0;
@@ -165,21 +185,24 @@ public class MatchOrderRootController implements Initializable {
 
             // set opacity
             mapRegion.forEach((matchType, region) -> region.setOpacity((matchOrderTmp.contains(matchType) || currentConflictList.contains(matchType)) ? 0.5 : 1));
+        });
+
+        // on match order modification
+        matchOrder.addListener((ListChangeListener<? super Match.EMatchType>) c -> {
+            // set button state
+            btnOK.setDisable(matchOrder.size() < mapRegion.size());
+            btnAuto.setDisable(matchOrder.size() == mapRegion.size());
+            btnReset.setDisable(matchOrder.isEmpty());
+
+            // set match order summary
+            lblMatchOrderSummary.setText(matchOrder.stream().map(Enum::toString).collect(Collectors.joining(" - ")));
 
             // set label order
             mapLabelOrder.forEach((matchType, label) -> {
-                int idx = matchOrderTmp.indexOf(matchType) + 1;
+                int idx = matchOrder.indexOf(matchType) + 1;
                 label.setVisible(idx > 0);
                 label.setText(String.valueOf(idx));
             });
-
-            // set button state
-            btnOK.setDisable(matchOrderTmp.size() < mapRegion.size());
-            btnAuto.setDisable(matchOrderTmp.size() == mapRegion.size());
-            btnReset.setDisable(matchOrderTmp.isEmpty());
-
-            // set match order summary
-            lblMatchOrderSummary.setText(matchOrderTmp.stream().map(Enum::toString).collect(Collectors.joining(" - ")));
         });
 
         // setup each region
@@ -193,7 +216,6 @@ public class MatchOrderRootController implements Initializable {
 
     private void setupRegion(Region rgn, ConflictList conflictList) {
         AtomicBoolean isAdded = new AtomicBoolean(false);
-        AtomicBoolean isConflict = new AtomicBoolean(false);
 
         // setup style
         String style = computeStyle(conflictList);
@@ -203,19 +225,15 @@ public class MatchOrderRootController implements Initializable {
         rgn.setOnMouseEntered(ev -> {
             if (!matchOrderTmp.contains(conflictList.getMatchType())) {
                 isAdded.set(false);
-                isConflict.set(currentConflictList.contains(conflictList.getMatchType())); // must be done before the modification of 'matchOrderTmp'
                 matchOrderTmp.add(conflictList.getMatchType());
-
-                if(isConflict.get()) {
-                    rgn.getStyleClass().add("match-order-label-rgn-border");
-                }
+            } else {
+                isAdded.set(true);
             }
         });
 
         rgn.setOnMouseExited(ev -> {
             if (!isAdded.get()) {
                 matchOrderTmp.remove(conflictList.getMatchType());
-                rgn.getStyleClass().remove("match-order-label-rgn-border");
             }
         });
 
@@ -226,12 +244,14 @@ public class MatchOrderRootController implements Initializable {
                 // on double click
                 // add match
                 isAdded.set(true);
+                matchOrder.add(conflictList.getMatchType());
             }
 
             if (matchOrderTmp.indexOf(conflictList.getMatchType()) == matchOrderTmp.size() - 1
                     && ev.getButton() == MouseButton.SECONDARY) {
                 // remove match
                 isAdded.set(false);
+                matchOrder.remove(conflictList.getMatchType());
             }
         });
     }
@@ -490,17 +510,20 @@ public class MatchOrderRootController implements Initializable {
 
     @FXML
     private void onAutoBtnAction(ActionEvent ev) {
-
+        List<Match.EMatchType> result = MatchOrderUtils.getBestMatchOrder(App.getModelInstance(), matchOrder);
+        matchOrder.addAll(result.subList(matchOrderTmp.size(), result.size()));
+        matchOrderTmp.setAll(matchOrder);
     }
 
     @FXML
     private void onResetBtnAction(ActionEvent ev) {
         matchOrderTmp.clear();
+        matchOrder.clear();
     }
 
     @FXML
     private void onOKBtnAction(ActionEvent ev) {
-        App.getModelInstance().getMatchOrder().setAll(matchOrderTmp);
+        App.getModelInstance().getMatchOrder().setAll(matchOrder);
         Stage stage = (Stage) rgnSH1.getScene().getWindow();
         stage.close();
     }

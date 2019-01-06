@@ -11,9 +11,6 @@ import java.util.stream.IntStream;
 
 public final class MatchOrderUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MatchOrderUtils.class);
-
-
     private MatchOrderUtils() {
         // empty constructor
     }
@@ -48,22 +45,28 @@ public final class MatchOrderUtils {
     }
 
     public static List<Match.EMatchType> getBestMatchOrder(Interclub interclub) {
+        return getBestMatchOrder(interclub, Collections.emptyList());
+    }
+
+    public static List<Match.EMatchType> getBestMatchOrder(Interclub interclub, List<Match.EMatchType> start) {
         List<Conflict> conflicts = getConflicts(interclub);
-        LOGGER.info("Conflicts: {}", conflicts);
 
         // generate all permutations
         List<List<Match.EMatchType>> unsorted = getPermutations_recursive(new HashSet<>(interclub.getMatches().keySet()));
 
         return unsorted.stream()
-                .max(Comparator.comparingInt(list -> conflicts.stream()
-                        .mapToInt(c -> checkConflictIndexes(list.indexOf(c.getMatch1().getType()), list.indexOf(c.getMatch2().getType())))
-                        .min()
-                        .orElse(0)))
+                .filter(list -> list.subList(0, start.size()).equals(start))
+                .min(Comparator.comparingInt(list -> conflicts.stream()
+                        .mapToInt(c -> getDelayOnConflict(list.indexOf(c.getMatch1().getType()), list.indexOf(c.getMatch2().getType())))
+                        .sum()))
                 .orElse(Collections.emptyList());
     }
 
-    private static int checkConflictIndexes(int idx1, int idx2) {
-        return Math.abs(idx1 / 2 - idx2 / 2) > 1 ? 1 : 0;
+    private static int getDelayOnConflict(int idx1, int idx2) {
+        // conflict 0/1 or 2/3 or 4/5 or 6/7 --> 2
+        // conflict 0-1/2-3 or 2-3/4-5 or 4-5/6-7 --> 1
+        // other --> 0
+        return Math.max(0, 2 - Math.abs(idx1 / 2 - idx2 / 2));
     }
 
     private static List<List<Match.EMatchType>> getPermutations_recursive(Set<Match.EMatchType> matches) {
