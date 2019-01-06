@@ -75,8 +75,10 @@ public class CenterController implements Initializable {
         });
 
         // load initial matches
-        court1Controller.setMatch(interclub.getMatches().get(interclub.getMatchOrder().get(court1MatchIdx.get())));
-        court2Controller.setMatch(interclub.getMatches().get(interclub.getMatchOrder().get(court2MatchIdx.get())));
+        if(!interclub.getMatchOrder().isEmpty()) {
+            court1Controller.setMatch(interclub.getMatches().get(interclub.getMatchOrder().get(court1MatchIdx.get())));
+            court2Controller.setMatch(interclub.getMatches().get(interclub.getMatchOrder().get(court2MatchIdx.get())));
+        }
 
         // listen for key shorcut
         node.setOnKeyPressed(ev -> {

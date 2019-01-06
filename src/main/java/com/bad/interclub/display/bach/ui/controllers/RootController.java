@@ -1,5 +1,6 @@
 package com.bad.interclub.display.bach.ui.controllers;
 
+import com.bad.interclub.display.bach.ui.App;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -48,7 +49,7 @@ public class RootController implements Initializable {
         });
 
 
-        //
+        // create match order node
         try {
             Parent matchOrderRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/matchorder/Root.fxml")));
 
@@ -57,7 +58,7 @@ public class RootController implements Initializable {
             Stage matchOrderStage = new Stage();
 
             node.setOnKeyPressed(ev -> {
-                if(ev.isControlDown() && ev.getCode() == KeyCode.N) {
+                if (ev.isControlDown() && ev.getCode() == KeyCode.N) {
                     matchOrderStage.show();
                 }
             });
@@ -71,9 +72,10 @@ public class RootController implements Initializable {
                 matchOrderStage.centerOnScreen();
                 matchOrderStage.setScene(matchOrderScene);
 
-                matchOrderStage.show();
+                if (App.getModelInstance().getMatchOrder().isEmpty()) {
+                    matchOrderStage.show();
+                }
             });
-
 
         } catch (IOException ioe) {
             LOGGER.error("Failed to init match order Windows: ", ioe);

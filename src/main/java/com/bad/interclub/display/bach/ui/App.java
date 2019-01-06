@@ -75,12 +75,6 @@ public class App extends Application{
                 try {
                     Interclub interclub = XlsLoader.loadFromFile(file);
 
-                    // match order
-                    if(interclub.getMatchOrder().isEmpty()) {
-                        interclub.getMatchOrder().setAll(MatchOrderUtils.getBestMatchOrder(interclub));
-                        LOGGER.info("Set match order to {}", interclub.getMatchOrder());
-                    }
-
                     // listen for file modification
                     Thread thread = new Thread(() -> listenForFileModifcation(file));
                     thread.setDaemon(true);
