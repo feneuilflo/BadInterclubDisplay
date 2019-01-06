@@ -15,8 +15,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.apache.poi.ss.usermodel.Cell.CELL_TYPE_NUMERIC;
@@ -49,6 +50,9 @@ public final class XlsLoader {
 
         // build matches
         extractMatches(wb, builder, host, guest);
+
+        // extract match order
+        builder.withMatchOrder(extractMatchOrder(wb));
 
         return builder.withFile(file.getAbsolutePath())
                 .withHost(host).withGuest(guest)
@@ -271,5 +275,41 @@ public final class XlsLoader {
         score.setHostPoints((int) row1.getCell(10 + 2 * numSet).getNumericCellValue());
         score.setGuestPoints((int) row2.getCell(11 + 2 * numSet).getNumericCellValue());
     }
+
+    private static List<Match.EMatchType> extractMatchOrder(HSSFWorkbook wb) {
+        HSSFSheet sheet = wb.getSheet("Form4bH");
+
+        List<Match.EMatchType> type = new ArrayList<>();
+        List<Integer> order = new ArrayList<>();
+
+        // extract data
+        int rowIdx = 9;
+        while(rowIdx < 20) {
+            HSSFRow row = sheet.getRow(rowIdx);
+            HSSFCell cell = row.getCell(1);
+
+            if(cell.getNumericCellValue() != 0) {
+                order.add((int) cell.getNumericCellValue());
+                type.add(Match.EMatchType.fromString(row.getCell(2).getStringCellValue()));
+            } else if(!row.getCell(2).getStringCellValue().isEmpty()) {
+                // match order not set
+                LOGGER.info("Match order not set");
+                return Collections.emptyList();
+            }
+
+            rowIdx++;
+        }
+
+        // sort matches and return result
+        List<Match.EMatchType> result = IntStream.range(0, type.size())
+                .boxed()
+                .sorted(Comparator.comparing(order::get))
+                .map(type::get)
+                .collect(Collectors.toList());
+        LOGGER.info("Match order: {}", result);
+        return result;
+    }
+
+
 
 }

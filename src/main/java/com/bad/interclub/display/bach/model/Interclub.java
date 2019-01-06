@@ -7,7 +7,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Interclub {
@@ -28,9 +30,9 @@ public class Interclub {
     private final String file;
 
     private final Map<Match.EMatchType, Match> matches;
-    private final ObservableList<Match.EMatchType> matchOrder = FXCollections.observableArrayList();
+    private final ObservableList<Match.EMatchType> matchOrder;
 
-    private Interclub(LocalDate date, String division, int pool, String interclubNb, int number, String location, Club host, Club guest, String file, Map<Match.EMatchType, Match> matches) {
+    private Interclub(LocalDate date, String division, int pool, String interclubNb, int number, String location, Club host, Club guest, String file, Map<Match.EMatchType, Match> matches, List<Match.EMatchType> matchOrder) {
         this.date = date;
         this.division = division;
         this.pool = pool;
@@ -41,6 +43,7 @@ public class Interclub {
         this.guest = guest;
         this.file = file;
         this.matches = ImmutableMap.copyOf(matches);
+        this.matchOrder = FXCollections.observableArrayList(matchOrder);
     }
 
     public static InterclubBuilder newBuilder() {
@@ -117,6 +120,7 @@ public class Interclub {
         private Club guest;
         private String file;
         private final Map<Match.EMatchType, Match> matches = new HashMap<>();
+        private List<Match.EMatchType> matchOrder = Collections.emptyList();
 
         InterclubBuilder() {
         }
@@ -171,8 +175,14 @@ public class Interclub {
             return this;
         }
 
+        public InterclubBuilder withMatchOrder(List<Match.EMatchType> matchOrder) {
+            this.matchOrder = matchOrder;
+            return this;
+        }
+
+
         public Interclub build() {
-            return new Interclub(date, division, pool, interclubNb, number, location, host, guest, file, matches);
+            return new Interclub(date, division, pool, interclubNb, number, location, host, guest, file, matches, matchOrder);
         }
     }
 }

@@ -64,7 +64,7 @@ public class App extends Application{
         );
 
         //File file = fileChooser.showOpenDialog(null);
-        File file = new File("F:\\BadInterclubDisplay\\example\\J04260N11.xls");
+        File file = new File("C:\\Users\\Admin\\Documents\\Programmation\\BadInterclubDisplay\\example\\J04260N11.xls");
 
         if(file == null) {
             LOGGER.error("No file chosen --> exit");
@@ -78,9 +78,8 @@ public class App extends Application{
                     // match order
                     if(interclub.getMatchOrder().isEmpty()) {
                         interclub.getMatchOrder().setAll(MatchOrderUtils.getBestMatchOrder(interclub));
+                        LOGGER.info("Set match order to {}", interclub.getMatchOrder());
                     }
-
-                    LOGGER.info("Match order: {}", interclub.getMatchOrder());
 
                     // listen for file modification
                     Thread thread = new Thread(() -> listenForFileModifcation(file));

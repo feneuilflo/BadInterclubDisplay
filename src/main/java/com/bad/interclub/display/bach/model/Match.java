@@ -18,6 +18,20 @@ public class Match {
 
     public enum EMatchType {
         SH1, SH2, SD1, SD2, DH, DD, DM1, DM2;
+
+        public static EMatchType fromString(String str) {
+            try {
+                return EMatchType.valueOf(str);
+            } catch(IllegalArgumentException iae) {
+                if(str.equalsIgnoreCase("Mx1")) {
+                    return DM1;
+                } else if(str.equalsIgnoreCase("Mx2")) {
+                    return DM2;
+                }
+
+                throw iae;
+            }
+        }
     }
 
     private Match(EMatchType type, List<Player> host, List<Player> guest, MatchScore score) {
