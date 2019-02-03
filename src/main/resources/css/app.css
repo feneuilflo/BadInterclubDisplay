@@ -103,3 +103,33 @@
     -fx-font-weight: bold;
     -fx-text-fill: white;
 }
+
+.summary-match-type-text {
+    -fx-text-fill:black;
+    -fx-padding: 15 15 15 15;
+    -fx-font-family: -text-dft-font-family;
+    -fx-font-size: 1.2em; /* relative size */
+    -fx-font-weight: bold;
+    -fx-font-style: italic;
+}
+
+.summary-player-text {
+    -fx-text-fill:black;
+    -fx-padding: 5 10 5 10;
+    -fx-font-family: -text-dft-font-family;
+    -fx-font-size: 1em; /* relative size */
+    -fx-font-weight: bold;
+}
+
+.summary-score-text {
+    -fx-text-fill:black;
+    -fx-font-family: -text-dft-font-family;
+    -fx-font-size: 1em; /* relative size */
+    -fx-font-weight: bold;
+}
+
+.summary-separator{
+    -fx-border-insets: 0 20 0 20;
+    -fx-border-style: solid;
+    -fx-border-color: rgb(0,0,0,0.0);
+}

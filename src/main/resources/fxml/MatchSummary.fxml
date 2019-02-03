@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.bad.interclub.display.bach.ui.controllers.SummaryMatchController">
+    <gridLinesVisible>true</gridLinesVisible>
+
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" halignment="CENTER"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="65.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" halignment="CENTER"/>
+    </columnConstraints>
+
+    <rowConstraints>
+        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="100.0"/>
+        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="00.0"/>
+    </rowConstraints>
+
+    <Label fx:id="lblMatchType"
+           GridPane.rowIndex="0" GridPane.columnIndex="0"
+           GridPane.rowSpan="2"
+           styleClass="summary-match-type-text"/>
+    <VBox GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <Label fx:id="lblHostPlayers"
+               styleClass="summary-player-text"/>
+        <Separator styleClass="summary-separator"/>
+        <Label fx:id="lblGuestPlayers"
+               styleClass="summary-player-text"/>
+    </VBox>
+    <Label fx:id="lblScore"
+           GridPane.columnIndex="2" GridPane.rowIndex="0"
+           GridPane.rowSpan="2"
+           styleClass="summary-score-text"/>
+</GridPane>

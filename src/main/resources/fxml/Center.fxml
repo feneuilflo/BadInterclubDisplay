@@ -14,15 +14,26 @@
 
     <gridLinesVisible>true</gridLinesVisible>
 
+    <rowConstraints>
+        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="100.0"/>
+        <RowConstraints vgrow="SOMETIMES" minHeight="10.0" percentHeight="00.0"/>
+    </rowConstraints>
+
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0"/>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="35.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="35.0"/>
     </columnConstraints>
 
     <fx:include source="Court.fxml" fx:id="court1"
-                GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                GridPane.columnIndex="0" GridPane.rowIndex="0"
+                GridPane.rowSpan="2"/>
+
+    <fx:include source="Summary.fxml"
+                GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
     <fx:include source="Court.fxml" fx:id="court2"
-                GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                GridPane.columnIndex="2" GridPane.rowIndex="0"
+                GridPane.rowSpan="2"/>
 
 </GridPane>

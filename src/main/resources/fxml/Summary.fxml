@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ListView?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:id="node" fx:controller="com.bad.interclub.display.bach.ui.controllers.SummaryController"
+            style="-fx-background-color: silver;"
+            styleClass="root">
+
+    <ListView fx:id="listView"
+              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+</AnchorPane>

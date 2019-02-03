@@ -9,33 +9,33 @@
           styleClass="header-panel">
 
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" percentWidth="35.0" halignment="RIGHT" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" percentWidth="35.0" halignment="RIGHT"/>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" halignment="CENTER"/>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" halignment="CENTER"/>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" halignment="CENTER"/>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" percentWidth="35.0" halignment="LEFT"/>
     </columnConstraints>
 
-        <Label fx:id="lblHostName"
-               alignment="CENTER_RIGHT"
-               styleClass="header-text"
-               GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <Label fx:id="lblHostPoints"
-               alignment="CENTER"
-               styleClass="header-text"
-               GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-        <Label text="-"
-               alignment="CENTER"
-               styleClass="header-text"
-               GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-        <Label fx:id="lblGuestPoints"
-               alignment="CENTER"
-               styleClass="header-text"
-               GridPane.columnIndex="3" GridPane.rowIndex="0"/>
-        <Label fx:id="lblGuestName"
-               alignment="CENTER_LEFT"
-               styleClass="header-text"
-               GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+    <Label fx:id="lblHostName"
+           alignment="CENTER_RIGHT"
+           styleClass="header-text"
+           GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <Label fx:id="lblHostPoints"
+           alignment="CENTER"
+           styleClass="header-text"
+           GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    <Label text="-"
+           alignment="CENTER"
+           styleClass="header-text"
+           GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+    <Label fx:id="lblGuestPoints"
+           alignment="CENTER"
+           styleClass="header-text"
+           GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+    <Label fx:id="lblGuestName"
+           alignment="CENTER_LEFT"
+           styleClass="header-text"
+           GridPane.columnIndex="4" GridPane.rowIndex="0"/>
 
 
 </GridPane>
