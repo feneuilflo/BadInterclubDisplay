@@ -1,6 +1,9 @@
 package com.bad.interclub.display.bach.ui.controllers;
 
 import com.bad.interclub.display.bach.model.Match;
+import com.bad.interclub.display.bach.ui.App;
+import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -34,8 +37,20 @@ public class CourtController implements Initializable {
         imgView.setImage(img);
     }
 
-    public void setCourtName(String name) {
-        lblCourtName.setText(name);
+    public void setIndex(int idx) {
+        // setup label
+        lblCourtName.setText(String.format("Terrain %d", idx));
+
+        // setup match
+        ObservableMap<Integer, Match.EMatchType> currentMatches = App.getModelInstance().getCurrentMatches();
+        currentMatches.addListener((MapChangeListener<? super Integer, ? super Match.EMatchType>) c -> {
+            if(c.getKey() == idx && c.wasAdded()) {
+                setMatch(App.getModelInstance().getMatches().get(c.getValueAdded()));
+            }
+        });
+        if(currentMatches.containsKey(idx)) {
+            setMatch(App.getModelInstance().getMatches().get(currentMatches.get(idx)));
+        }
     }
 
     public void setMatch(Match match) {

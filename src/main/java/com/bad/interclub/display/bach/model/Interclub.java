@@ -3,6 +3,7 @@ package com.bad.interclub.display.bach.model;
 import com.google.common.collect.ImmutableMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -31,6 +32,7 @@ public class Interclub {
 
     private final Map<Match.EMatchType, Match> matches;
     private final ObservableList<Match.EMatchType> matchOrder;
+    private final ObservableMap<Integer, Match.EMatchType> currentmatches;
 
     private Interclub(LocalDate date, String division, int pool, String interclubNb, int number, String location, Club host, Club guest, String file, Map<Match.EMatchType, Match> matches, List<Match.EMatchType> matchOrder) {
         this.date = date;
@@ -44,6 +46,7 @@ public class Interclub {
         this.file = file;
         this.matches = ImmutableMap.copyOf(matches);
         this.matchOrder = FXCollections.observableArrayList(matchOrder);
+        this.currentmatches = FXCollections.observableMap(new HashMap<>());
     }
 
     public static InterclubBuilder newBuilder() {
@@ -92,6 +95,10 @@ public class Interclub {
 
     public ObservableList<Match.EMatchType> getMatchOrder() {
         return matchOrder;
+    }
+
+    public ObservableMap<Integer, Match.EMatchType> getCurrentMatches() {
+        return currentmatches;
     }
 
     @Override

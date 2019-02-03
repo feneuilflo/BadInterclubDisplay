@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -42,42 +43,34 @@ public class CenterController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // set court names
-        court1Controller.setCourtName("Terrain 1");
-        court2Controller.setCourtName("Terrain 2");
+        // set court indexes
+        court1Controller.setIndex(1);
+        court2Controller.setIndex(2);
 
         // get model
         Interclub interclub = App.getModelInstance();
+        ObservableMap<Integer, Match.EMatchType> currentMatches = interclub.getCurrentMatches();
 
         // load first matches when matches order changes
         interclub.getMatchOrder().addListener((ListChangeListener.Change<? extends Match.EMatchType> c) -> {
-            if (court1MatchIdx.get() == 0) {
-                court1Controller.setMatch(interclub.getMatches().get(interclub.getMatchOrder().get(0)));
-            } else {
-                court1MatchIdx.set(0);
-            }
-
-            if (court2MatchIdx.get() == 1) {
-                court2Controller.setMatch(interclub.getMatches().get(interclub.getMatchOrder().get(1)));
-            } else {
-                court2MatchIdx.set(0);
-            }
+            court1MatchIdx.set(0);
+            court2MatchIdx.set(1);
         });
 
         // load match on property changes
         court1MatchIdx.addListener((observable, oldValue, newValue) -> {
             int matchIdx = newValue.intValue() % interclub.getMatches().size();
-            court1Controller.setMatch(interclub.getMatches().get(interclub.getMatchOrder().get(matchIdx)));
+            currentMatches.put(1, interclub.getMatchOrder().get(matchIdx));
         });
         court2MatchIdx.addListener((observable, oldValue, newValue) -> {
             int matchIdx = newValue.intValue() % interclub.getMatches().size();
-            court2Controller.setMatch(interclub.getMatches().get(interclub.getMatchOrder().get(matchIdx)));
+            currentMatches.put(2, interclub.getMatchOrder().get(matchIdx));
         });
 
         // load initial matches
         if(!interclub.getMatchOrder().isEmpty()) {
-            court1Controller.setMatch(interclub.getMatches().get(interclub.getMatchOrder().get(court1MatchIdx.get())));
-            court2Controller.setMatch(interclub.getMatches().get(interclub.getMatchOrder().get(court2MatchIdx.get())));
+            currentMatches.put(1, interclub.getMatchOrder().get(court1MatchIdx.get()));
+            currentMatches.put(2, interclub.getMatchOrder().get(court2MatchIdx.get()));
         }
 
         // listen for key shorcut

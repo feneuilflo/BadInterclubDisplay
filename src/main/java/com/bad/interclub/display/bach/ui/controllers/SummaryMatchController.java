@@ -3,11 +3,12 @@ package com.bad.interclub.display.bach.ui.controllers;
 import com.bad.interclub.display.bach.model.Match;
 import com.bad.interclub.display.bach.model.MatchScore;
 import com.bad.interclub.display.bach.model.ScoreUtils;
+import com.bad.interclub.display.bach.ui.App;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableIntegerValue;
+import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -59,7 +60,21 @@ public class SummaryMatchController implements Initializable {
         match.getScore().getSet3().guestPointsProperty().addListener((observable, oldValue, newValue) -> onScoreUpdate(match.getScore()));
         onScoreUpdate(match.getScore());
 
+        // background based on winner
         rgn.styleProperty().bind(fromScoreToBackground(ScoreUtils.getWinnerProperty(match)));
+
+        // border based on current matches
+        ObservableMap<Integer, Match.EMatchType> currentMatches = App.getModelInstance().getCurrentMatches();
+        App.getModelInstance().getCurrentMatches().addListener((MapChangeListener<? super Integer, ? super Match.EMatchType>) change -> {
+            if(change.getValueAdded() == match.getType()) {
+                rgn.getStyleClass().add("summary-match-border");
+            } else if(change.getValueRemoved() == match.getType()) {
+                rgn.getStyleClass().remove("summary-match-border");
+            }
+        });
+        if(currentMatches.values().contains(match.getType())) {
+            rgn.getStyleClass().add("summary-match-border");
+        }
     }
 
     private StringBinding fromScoreToBackground(ObservableIntegerValue score) {

@@ -133,3 +133,9 @@
     -fx-border-style: solid;
     -fx-border-color: rgb(0,0,0,0.0);
 }
+
+.summary-match-border {
+    -fx-border-color: sandybrown;
+    -fx-border-width: 5;
+    -fx-border-style: solid;
+}
