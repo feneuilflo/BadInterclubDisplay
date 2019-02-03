@@ -29,6 +29,7 @@ public final class ScoreUtils {
     }
 
     public static int getWinner(MatchScore matchScore) {
+
         if(matchScore.getHostForfeit()) return -1;
         if(matchScore.getGuestForfeit()) return 1;
 
@@ -91,7 +92,7 @@ public final class ScoreUtils {
         return Bindings.createLongBinding(() -> getGuestScore(interclub),
                 interclub.getMatches().values().stream()
                         .map(Match::getScore)
-                        .flatMap(score -> Stream.of(score.getSet1(), score.getSet3()))
+                        .flatMap(score -> Stream.of(score.getSet1(), score.getSet2(), score.getSet3()))
                         .flatMap(setScore -> Stream.<Observable>of(setScore.guestForfeitProperty(), setScore.hostForfeitProperty(),
                                 setScore.hostPointsProperty(), setScore.guestPointsProperty()))
                         .toArray(Observable[]::new));

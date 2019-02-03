@@ -3,6 +3,7 @@ package com.bad.interclub.display.bach.ui.controllers;
 import com.bad.interclub.display.bach.model.Match;
 import com.bad.interclub.display.bach.model.ScoreUtils;
 import com.bad.interclub.display.bach.ui.App;
+import javafx.beans.InvalidationListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,12 +12,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.RowConstraints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -26,52 +31,45 @@ public class SummaryController implements Initializable {
 
 
     @FXML
-    private Region node;
+    private GridPane node;
 
-    @FXML
-    private ListView<Match.EMatchType> listView;
+    private Map<Match.EMatchType, Node> children = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        listView.setCellFactory(listView -> createCell());
+        for(int idx = 0; idx < App.getModelInstance().getMatches().size(); idx++) {
+            node.getRowConstraints().add(createRowConstraint());
+        }
 
-        listView.setItems(App.getModelInstance().getMatchOrder());
+        // create children
+        App.getModelInstance().getMatches().forEach((matchType, match) -> children.put(matchType, createMatchNode(match)));
+
+        // listen for match order
+        App.getModelInstance().getMatchOrder().addListener((InvalidationListener) c -> onNewMatchOrder());
+        onNewMatchOrder();
     }
 
-    private ListCell<Match.EMatchType> createCell() {
-        return new ListCell<Match.EMatchType>() {
-            @Override
-            protected void updateItem(Match.EMatchType item, boolean empty) {
-                if (item == null || empty) {
-                    setText(null);
-                    setStyle("");
-                } else {
-                    // create node
-                    setGraphic(createMatchNode(item));
-
-                    // bind style to winner
-                    Match match = App.getModelInstance().getMatches().get(item);
-                    ScoreUtils.getWinnerProperty(match).addListener((observable, oldValue, newValue) -> setStyle(getStyle(newValue.intValue())));
-                    setStyle(getStyle(ScoreUtils.getWinner(match)));
-                }
-            }
-
-            private String getStyle(int winner) {
-                if(winner > 0) {
-                    return "-fx-padding: 0px; -fx-background-color: -host-color-2;";
-                } else if (winner < 0) {
-                    return "-fx-padding: 0px; -fx-background-color: -guest-color-2;";
-                } else {
-                    return "-fx-padding: 0px; ";
-                }
-            }
-        };
+    private void onNewMatchOrder() {
+        node.getChildren().clear();
+        for(int idx = 0; idx < App.getModelInstance().getMatchOrder().size(); idx++) {
+            Match.EMatchType type = App.getModelInstance().getMatchOrder().get(idx);
+            Match match = App.getModelInstance().getMatches().get(type);
+            node.getRowConstraints().get(idx).setPercentHeight(match.getHost().size() == 1 ? 9.5 : 15.5);
+            node.add(children.get(type), 0, idx);
+        }
     }
 
-    private Node createMatchNode(Match.EMatchType matchType) {
-        Match match = App.getModelInstance().getMatches().get(matchType);
+    private RowConstraints createRowConstraint() {
+        RowConstraints result = new RowConstraints();
+        result.setMinHeight(10.0);
+        result.setPercentHeight(12.5);
+        result.setVgrow(Priority.SOMETIMES);
 
-        // Load person overview.
+        return result;
+    }
+
+    private Node createMatchNode(Match match) {
+        // Load fxml
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/MatchSummary.fxml")));
         try {

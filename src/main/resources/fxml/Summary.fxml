@@ -3,11 +3,12 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.ListView?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
+<GridPane xmlns:fx="http://javafx.com/fxml"
             fx:id="node" fx:controller="com.bad.interclub.display.bach.ui.controllers.SummaryController"
             style="-fx-background-color: silver;"
             styleClass="root">
 
-    <ListView fx:id="listView"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
-</AnchorPane>
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="100.0"/>
+    </columnConstraints>
+</GridPane>

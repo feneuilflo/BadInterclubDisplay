@@ -9,6 +9,7 @@
 <?import javafx.geometry.Insets?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
+          fx:id="rgn"
           fx:controller="com.bad.interclub.display.bach.ui.controllers.SummaryMatchController">
     <gridLinesVisible>true</gridLinesVisible>
 
