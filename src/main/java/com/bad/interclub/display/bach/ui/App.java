@@ -63,8 +63,14 @@ public class App extends Application{
                 new FileChooser.ExtensionFilter("All files", "*")
         );
 
-        //File file = fileChooser.showOpenDialog(null);
-        File file = new File("C:\\Users\\Admin\\Documents\\Programmation\\BadInterclubDisplay\\example\\J04260N11.xls");
+        File dftFile = new File("C:\\Users\\Admin\\Documents\\Programmation\\BadInterclubDisplay\\example\\J04260N11.xls");
+        File file;
+        if(dftFile.exists()) {
+            file = dftFile;
+        } else {
+            file = fileChooser.showOpenDialog(null);
+        }
+
 
         if(file == null) {
             LOGGER.error("No file chosen --> exit");
