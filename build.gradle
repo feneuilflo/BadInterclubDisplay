@@ -2,8 +2,12 @@ group 'com.bad.interclub.display'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
+
+
+mainClassName = 'com.bad.interclub.display.bach.ui.App'
 
 repositories {
     mavenCentral()

@@ -2,7 +2,6 @@ package com.bad.interclub.display.bach.ui.controllers;
 
 import com.bad.interclub.display.bach.model.Interclub;
 import com.bad.interclub.display.bach.model.Match;
-import com.bad.interclub.display.bach.model.ScoreUtils;
 import com.bad.interclub.display.bach.ui.App;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -13,12 +12,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
-import sun.plugin.services.PlatformService;
 
 import java.net.URL;
-import java.util.Iterator;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class CenterController implements Initializable {
 
